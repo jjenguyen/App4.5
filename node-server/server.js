@@ -26,7 +26,7 @@
 //     console.log(`Server is running on http://localhost:${port}`);
 // });
 
-// code with mongodb implemented
+// code with mongodb implemented, login and auth, register new user
 // make sure to go to http://localhost:3000/posts when testing server to see json data
 const express = require('express');
 const cors = require('cors');
@@ -73,7 +73,7 @@ app.post('/login', async (req, res) => {
 
         if (!user) {
             console.log('User not found');
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'User not found. Please try again or register an account.' });
         }
 
         console.log('Mongodb User:', user);
@@ -99,7 +99,7 @@ app.post('/login', async (req, res) => {
         const passwordMatch = await bcrypt.compare(req.body.password, user.password);
         if (!passwordMatch) {
             console.log('Incorrect password');
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Incorrect password. Please try again.' });
         }
 
         console.log('Login successful!');
@@ -117,7 +117,7 @@ app.post('/register', async (req, res) => {
         const usersCollection = db.collection('users');
         const existingUser = await usersCollection.findOne({ email: req.body.email });
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'User already exists. Please go to the login page to log in.' });
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         await usersCollection.insertOne({
@@ -125,9 +125,7 @@ app.post('/register', async (req, res) => {
             password: hashedPassword
         });
         console.log('User registered successfully!');
-        res.status(201).json({ message: 'Account successfully created!' });
-        // HOW TO REDIRECT????
-        // res.redirect('/blog');
+        return res.status(201).json({ message: 'Account successfully created! Please go to the login page to log in.' });
     } catch (error) {
         console.error('Error during registration:', error);
         res.status(500).json({ message: 'Internal server error' });

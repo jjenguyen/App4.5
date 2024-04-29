@@ -23,6 +23,8 @@ export class LoginComponent {
           console.log(response);
           // emit login success event
           this.loginSuccess.emit(true);
+          // navigate to home page route
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           // handle login error
