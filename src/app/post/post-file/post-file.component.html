@@ -1,0 +1,43 @@
+<!-- <p>post-file works!</p> -->
+
+<!-- test 1 -->
+<!-- <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Shiba Inu</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>   -->
+
+  <!-- test 2 -->
+  <!-- <mat-form-field>
+    <mat-label>Input</mat-label>
+    <input matInput>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select</mat-label>
+    <mat-select>
+      <mat-option value="one">First option</mat-option>
+      <mat-option value="two">Second option</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Textarea</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>   -->
+  
+<div class="post-file-container">
+    <mat-card class="mat-card">
+    <mat-form-field appearance="fill">
+        <textarea matInput rows="10" [(ngModel)]="postContent" placeholder="Enter text here..."></textarea>
+    </mat-form-field>
+    <button class="submit" mat-raised-button color="primary" (click)="submitPost()" style="margin: 10px auto; display: block;">Submit</button>
+</mat-card>
+</div>
