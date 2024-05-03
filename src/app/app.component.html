@@ -1,3 +1,31 @@
-<app-header></app-header>
+<!-- original -->
+<!-- <app-header></app-header>
 <app-post-file></app-post-file>
-<app-post-list></app-post-list>
+<app-post-list></app-post-list> -->
+
+<!-- using app component html to render app root -->
+<!-- <div *ngIf="!isLoggedIn && !displayRegisterForm">
+    <app-login (loginSuccess)="onLoginSuccess($event)"></app-login>
+    <p>Don't have an account? <a href="#" (click)="toggleRegisterForm()">Register here!</a></p>
+</div>
+<div *ngIf="displayRegisterForm">
+    <app-register></app-register>
+    <p>Returning user? <a href="#" (click)="toggleRegisterForm()">Sign in here!</a></p>
+</div>
+<div *ngIf="isLoggedIn">
+    <app-header></app-header>
+    <app-post-file></app-post-file>
+    <app-post-list></app-post-list>
+</div> -->
+
+<!-- final project: use header component for routing -->
+<!-- render login component and register link if user is not logged in -->
+<div *ngIf="!isLoggedIn">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- render header component and router outlet if user is logged in -->
+<div *ngIf="isLoggedIn">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+</div>

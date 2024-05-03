@@ -19,6 +19,10 @@ import { PostFileComponent } from './post/post-file/post-file.component';
 import { PostListComponent } from './post/post-list/post-list.component';
 import { HeaderComponent } from './head-create/header/header.component';
 import {MatSelectModule} from '@angular/material/select';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,10 @@ import {MatSelectModule} from '@angular/material/select';
     PostFileComponent,
     PostListComponent,
     HeaderComponent,
+    LoginComponent,
+    RegisterComponent,
+    HomeComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
