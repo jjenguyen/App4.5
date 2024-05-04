@@ -26,11 +26,11 @@
 //     console.log(`Server is running on http://localhost:${port}`);
 // });
 
-// code with mongodb implemented, login and auth, register new user
+// code with mongodb implemented, login and auth, register new user, full task management functionality
 // make sure to go to http://localhost:3000/posts when testing server to see json data
 const express = require('express');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 
 // create an express app
@@ -132,25 +132,96 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// route to fetch posts from db
-app.get('/posts', async (req, res) => {
-    try {
-        // connect to mongo
-        const db = await connectToMongoDB();
+// route to fetch posts from db (App 4.5 GitHub repo)
+// app.get('/posts', async (req, res) => {
+//     try {
+//         // connect to mongo
+//         const db = await connectToMongoDB();
         
-        // get the posts collection
-        const postsCollection = db.collection('posts');
+//         // get the posts collection
+//         const postsCollection = db.collection('posts');
         
-        // fetch all posts from the collection
-        const posts = await postsCollection.find({}).toArray();
+//         // fetch all posts from the collection
+//         const posts = await postsCollection.find({}).toArray();
         
-        // send the posts as JSON response
-        res.json(posts);
-    } catch (error) {
-        console.error('Error fetching posts from MongoDB:', error);
+//         // send the posts as JSON response
+//         res.json(posts);
+//     } catch (error) {
+//         console.error('Error fetching posts from MongoDB:', error);
 
-        // note: make sure ip address is updated in atlas if you are gettng internal server error
-        res.status(500).json({ error: 'Internal server error' });
+//         // note: make sure ip address is updated in atlas if you are gettng internal server error
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
+// task management implementation
+// this works
+app.post("/posts", async (req, res, next) => {
+    try {
+        const db = await connectToMongoDB();
+        const postsCollection = db.collection('posts');
+        const post = {
+            title: req.body.title,
+            date: req.body.date,
+            category: req.body.category,
+            content: req.body.content
+        };
+        await postsCollection.insertOne(post);
+        console.log('Post added successful');
+        res.status(201).json({ message: 'Post added successful' });
+    } catch (error) {
+        console.error('Error adding post:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// this works
+app.get('/posts', async (req, res, next) => {
+    try {
+        const db = await connectToMongoDB();
+        const postsCollection = db.collection('posts');
+        const posts = await postsCollection.find({}).toArray();
+        res.status(200).json({ message: 'This is fetched data', posts: posts });
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// app.delete("/posts/:id", async (req, res, next) => {
+//     try {
+//         const db = await connectToMongoDB();
+//         const postsCollection = db.collection('posts');
+//         await postsCollection.deleteOne({ _id: req.params.id });
+//         console.log('Post deleted');
+//         res.status(200).json({ message: 'Post deleted' });
+//     } catch (error) {
+//         console.error('Error deleting post:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// });
+
+// trying to fix delete, had to alter logic, successfully working
+app.delete("/posts/:id", async (req, res, next) => {
+    try {
+        // cconvert the string ID to an ObjectId
+        const postId = new ObjectId(req.params.id);
+        console.log('Received delete request for post with id:', postId);
+
+        const db = await connectToMongoDB();
+        const postsCollection = db.collection('posts');
+        const result = await postsCollection.deleteOne({ _id: postId });
+        console.log('Deletion result:', result);
+        if (result.deletedCount === 1) {
+            console.log('Post deleted');
+            return res.status(200).json({ message: 'Post deleted' });
+        } else {
+            console.log('Post not found');
+            return res.status(404).json({ message: 'Post not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 

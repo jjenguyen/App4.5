@@ -1,4 +1,5 @@
-<div class="post-list-container">
+<!-- assignment 4 -->
+<!-- <div class="post-list-container">
     <mat-card class="mat-card">
     <mat-expansion-panel>
         <mat-expansion-panel-header>Previous Posts</mat-expansion-panel-header>
@@ -10,4 +11,27 @@
     </mat-expansion-panel>
 </mat-card>
 <h3>Total Posts: {{ posts.length }}</h3>
-</div>
+</div> -->
+
+<!-- webdev final project: task management -->
+<app-header></app-header>
+<form class="full-task-list">
+    <h3>Task Count: {{ posts.length }}</h3>
+    <mat-card>
+      <mat-accordion multi="true" *ngIf="posts.length > 0">
+      <mat-expansion-panel *ngFor="let post of posts">
+      <mat-expansion-panel-header>
+        <h3>Title: {{post.title}}</h3>
+      </mat-expansion-panel-header>
+        <h4>Date: {{post.date}}</h4>
+        <h4>Category: {{post.category}}</h4>
+        <h4>Content: {{post.content}}.</h4>
+      <mat-action-row>
+        <button mat-button color="accent" (click)="onDelete(post.id)">Delete</button>
+      </mat-action-row>
+      </mat-expansion-panel>
+      </mat-accordion>
+      <p class="info-text mat-body-1" *ngIf="posts.length <= 0">No posts have been added.</p>
+    </mat-card>
+</form>
+<app-footer></app-footer>

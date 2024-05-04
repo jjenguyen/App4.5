@@ -33,11 +33,78 @@
     <textarea matInput></textarea>
   </mat-form-field>   -->
   
-<div class="post-file-container">
+<!-- <div class="post-file-container">
     <mat-card class="mat-card">
     <mat-form-field appearance="fill">
         <textarea matInput rows="10" [(ngModel)]="postContent" placeholder="Enter text here..."></textarea>
     </mat-form-field>
     <button class="submit" mat-raised-button color="primary" (click)="submitPost()" style="margin: 10px auto; display: block;">Submit</button>
 </mat-card>
+</div> -->
+
+<!-- webdev final project: task management -->
+<app-header></app-header>
+<div class="create-task-container">
+  <div class="task-form">
+    <br>
+    <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-card>
+      <h1>Create New Task</h1>
+      <mat-card-header style="margin: auto;">
+        <mat-card-title style="text-align: center;"></mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Task Title</mat-label>
+          <input matInput [(ngModel)]="tasktitle" name="title" required placeholder="Ex. Cooking">
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Task Date</mat-label>
+          <input matInput [(ngModel)]="taskdate" name="date" required placeholder="Ex. 5/02/2024">
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Task Category</mat-label>
+          <input matInput [(ngModel)]="taskcategory"  name="category" required placeholder="Ex. Food">
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Task Description</mat-label>
+            <textarea matInput rows="10" [(ngModel)]="taskcontent" name="content" placeholder="Task Content" ngModel required #content="ngModel"></textarea>
+            <mat-error *ngIf="content.invalid">Invalid operation please enter in a field</mat-error>
+          <!-- <input matInput [(ngModel)]="task.content" name="description" required placeholder="Describe the task here."> -->
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <button mat-raised-button color="primary" type="submit">Add Task</button>
+      </mat-card-content>
+    </mat-card>
+    </form>
+  </div>
+  <div class="local-task-list">
+    <mat-card class="mat-card">
+      <h1>New Tasks Created</h1>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header class="new-tasks-header">See your newly-created tasks here!</mat-expansion-panel-header>
+            <div *ngFor="let task of localTasks" class="task-item">
+                <div>
+                    <div>Title: {{ task.title }}</div>
+                    <div>Content: {{ task.content }}</div>
+                    <div>Date: {{ task.date }}</div>
+                    <div>Category: {{ task.category }}</div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-card>
+  </div>
 </div>
+<br>
+<app-footer></app-footer>
